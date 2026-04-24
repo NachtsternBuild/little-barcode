@@ -3,5 +3,5 @@ A small project using regular expressions, Barcode4J, and ZXing to create a barc
 
 
 ## Branchen
-- **[Java Implementierung](ttps://github.com/NachtsternBuild/little-barcode/tree/java)**
+- **[Java Implementierung](https://github.com/NachtsternBuild/little-barcode/tree/java)**
 - **[Rust Portierung](https://github.com/NachtsternBuild/little-barcode/tree/rust-ui)** 
