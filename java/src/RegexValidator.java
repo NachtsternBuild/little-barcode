@@ -26,7 +26,7 @@ public class RegexValidator {
         //Erstellung Regex:
         // Price= sucht nach Text PREISE, ()=gefangene Gruppe, 
         // \\d+= 1 oder mehrere Ziffern, \\[.,] = Dezimalpunkt, \\d+ = Ziffern nach Komma 
-        String regex = "PRICE:(\\d+\\[.,]\\d+)";
+        String regex = "PRICE:(\\d+[.,]\\d+)";
 
         Pattern pattern = Pattern.compile(regex);
 
