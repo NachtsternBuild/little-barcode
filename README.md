@@ -1,6 +1,12 @@
 # little-barcode
 A small project using regular expressions, Barcode4J, and ZXing to create a barcode scanner.
 
+## Licensing
+This project is licensed as follows:
+- The Java implementation located in `/java` is licensed under the MIT License.
+- The Rust port located in `/rust-app` is licensed under the GNU GPLv3 because it utilizes GPL-licensed UI libraries.
+
+Please see the respective subdirectories for the full license texts.
 
 ## Branchen
 - **[Java Implementierung](https://github.com/NachtsternBuild/little-barcode/tree/java)**
