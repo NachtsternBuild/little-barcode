@@ -43,4 +43,39 @@ public class RegexValidator {
 
          return "Kein Preis gefunden";
     }
+
+    public static boolean isURL(String urlText){
+        // Erstellung regex:
+        // beginnt mit: http o https, dann :// anderen Inhalt
+        String regex = "^https?://.*";
+
+        return urlText.matches(regex);
+    }
+
+    public static boolean isISBN(String isbnCode){
+        //Erstellung regex:
+        // beginnt mit 978 o 979 und dann noch 10 Ziffern (13 insgesamt)
+        String regex =  "^(978|979)\\d{10}$";
+
+        return isbnCode.matches(regex);
+    }
+
+    public static boolean isVCard(String contactData){
+        //Erstellung regex:
+        //(?s): mit diesem liest Regex mehr textreihe, ^ = Anfang String, $=ende String  
+        String regex = "(?s)^BEGIN:VCARD.*END:VCARD$";
+
+        return contactData.matches(regex);
+    }
+
+    public static String extractWifi (String wifiRawData){
+
+        String regex = "WIFI:S:(.*?);";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(wifiRawData);
+        if (matcher.find()) {
+        return matcher.group(1); 
+    }
+    return "Kein WLan gefunden";
+    }
 }
