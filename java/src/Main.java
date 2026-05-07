@@ -1,6 +1,19 @@
 
 void main() {
-    //Tests der einzelnen Methoden
+
+    //Test der Hauptmethode "IdentifyContent":
+    System.out.println("----- TEST IDENTIFYCONTENT -----");
+    String input1 = "http://dhsn.de";
+    String input2 = "9781234567890";
+    String input3 = "Ich bin auch gültig";
+
+    System.out.println("Input1 ist einen " + RegexValidator.identifyContent(input1));
+    System.out.println("Input2 ist einen " + RegexValidator.identifyContent(input2));
+    System.out.println("Input3 ist einen " + RegexValidator.identifyContent(input3));
+
+
+
+    //Tests der einzelnen Methoden, die in der Hauptmethode enthalten sind:
     System.out.println("---- TEST EAN-13 ----");
 
     String testEAN = "1347680943215";
@@ -16,6 +29,7 @@ void main() {
         System.out.println ("Nein, " + testEAN + " ist kein gültiges EAN-Format.");
     }
 
+
     System.out.println("----- TEST QR CODE -----");
 
     String testQrCode = "ID:12345;PRICE:19.99;";
@@ -28,6 +42,7 @@ void main() {
     else{
         System.out.println("Der Preis ist: " + priceErgebnis + " Euro");
     }
+
 
     System.out.println("----- TEST URL -----");
 
@@ -43,6 +58,7 @@ void main() {
         System.out.println("Nein, " + testUrl + " ist keine gültige URL.");
     }
 
+
     System.out.println("----- TEST ISBN -----");
 
     String testISBN = "9781234567890";
@@ -57,6 +73,7 @@ void main() {
         System.out.println("Nein, " + testISBN + " ist keine gütlige ISBN");
     }
     
+
     System.out.println("----- TEST VCARD -----");
 
     String testVCARD = "BEGIN:VCARD\nFN:Paolo\nEND:VCARD";
@@ -71,6 +88,7 @@ void main() {
         System.out.println("Nein, ist kein gültiges vCard-Format");
     }
 
+    
     System.out.println("----- TEST WLAN -----");
 
     String testWLAN = "WIFI:S:MeinNetzwerk;P:Passwort123;;";
@@ -84,4 +102,6 @@ void main() {
     else{
         System.out.println("Der WLAN-Name ist: " + wlanErgebnis);
     }
+
+    
 }
