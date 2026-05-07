@@ -82,4 +82,39 @@ public class RegexValidator {
     }
     return "Kein WLan gefunden";
     }
+
+    public static String identifyContent(String rawData){
+
+        //kontrolliert ob es um EAN-13 geht:
+        if(isValidEAN(rawData)){
+            return ("Datentyp: Handelprodukt (EAN-13)");
+        }
+        //kontrolliert ob es um URL geht:
+        if(isURL(rawData)){
+            return ("Datentyp: Web-Link (URL)");
+        }
+        //kontrolliert ob es um eine ISBN geht:
+        if(isISBN(rawData)){
+            return ("Datentyp: Buch (ISBN)");
+        }
+
+        //kontrolliert ob es um eine vCard geht:
+        if(isVCard(rawData)){
+            return ("DATENTYP: Visitenkarte (vCard)");
+        }
+
+        //kontrolliert ob es um eine QR-CODE geht:
+        String price = extractPrice(rawData);
+        if(!price.equals("Kein Preis gefunden")){
+            return ("DATENTYP: QR-Code mit Preisinfo (Preis: " + price + " Euro");
+        }
+
+        //kontrolliert ob es um eine Wi-Fi geht:
+        String wlanName = extractWifi(rawData);
+        if(!wlanName.equals("Kein WLan gefunden")){
+            return ("DATENTYP: WLAN (Netzwerk: " + wlanName + ")");
+        }
+
+        return "ungültigen Datentyp: Unbekannter Text / Allgemeiner Inhalt";
+    }
 }
