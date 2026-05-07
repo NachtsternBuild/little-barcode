@@ -69,9 +69,13 @@ public class RegexValidator {
     }
 
     public static String extractWifi (String wifiRawData){
-
+        //Erstellung regex:
+        //Sucht nach pattern Wi-Fi und nimmt was zwischen ' S:' und ' ; ' ist
         String regex = "WIFI:S:(.*?);";
+
         Pattern pattern = Pattern.compile(regex);
+
+        //Suche nach dem Regex im Text des QR-Codes
         Matcher matcher = pattern.matcher(wifiRawData);
         if (matcher.find()) {
         return matcher.group(1); 
