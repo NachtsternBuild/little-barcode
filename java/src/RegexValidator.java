@@ -43,4 +43,78 @@ public class RegexValidator {
 
          return "Kein Preis gefunden";
     }
+
+    public static boolean isURL(String urlText){
+        // Erstellung regex:
+        // beginnt mit: http o https, dann :// anderen Inhalt
+        String regex = "^https?://.*";
+
+        return urlText.matches(regex);
+    }
+
+    public static boolean isISBN(String isbnCode){
+        //Erstellung regex:
+        // beginnt mit 978 o 979 und dann noch 10 Ziffern (13 insgesamt)
+        String regex =  "^(978|979)\\d{10}$";
+
+        return isbnCode.matches(regex);
+    }
+
+    public static boolean isVCard(String contactData){
+        //Erstellung regex:
+        //(?s): mit diesem liest Regex mehr textreihe, ^ = Anfang String, $=ende String  
+        String regex = "(?s)^BEGIN:VCARD.*END:VCARD$";
+
+        return contactData.matches(regex);
+    }
+
+    public static String extractWifi (String wifiRawData){
+        //Erstellung regex:
+        //Sucht nach pattern Wi-Fi und nimmt was zwischen ' S:' und ' ; ' ist
+        String regex = "WIFI:S:(.*?);";
+
+        Pattern pattern = Pattern.compile(regex);
+
+        //Suche nach dem Regex im Text des QR-Codes
+        Matcher matcher = pattern.matcher(wifiRawData);
+        if (matcher.find()) {
+        return matcher.group(1); 
+    }
+    return "Kein WLan gefunden";
+    }
+
+    public static String identifyContent(String rawData){
+
+        //kontrolliert ob es um EAN-13 geht:
+        if(isValidEAN(rawData)){
+            return ("Datentyp: Handelprodukt (EAN-13)");
+        }
+        //kontrolliert ob es um URL geht:
+        if(isURL(rawData)){
+            return ("Datentyp: Web-Link (URL)");
+        }
+        //kontrolliert ob es um eine ISBN geht:
+        if(isISBN(rawData)){
+            return ("Datentyp: Buch (ISBN)");
+        }
+
+        //kontrolliert ob es um eine vCard geht:
+        if(isVCard(rawData)){
+            return ("DATENTYP: Visitenkarte (vCard)");
+        }
+
+        //kontrolliert ob es um eine QR-CODE geht:
+        String price = extractPrice(rawData);
+        if(!price.equals("Kein Preis gefunden")){
+            return ("DATENTYP: QR-Code mit Preisinfo (Preis: " + price + " Euro");
+        }
+
+        //kontrolliert ob es um eine Wi-Fi geht:
+        String wlanName = extractWifi(rawData);
+        if(!wlanName.equals("Kein WLan gefunden")){
+            return ("DATENTYP: WLAN (Netzwerk: " + wlanName + ")");
+        }
+
+        return "ungültigen Datentyp: Unbekannter Text / Allgemeiner Inhalt";
+    }
 }
