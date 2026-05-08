@@ -27,11 +27,16 @@
 use rxing::{
 	helpers,
 	BarcodeFormat, 
-	MultiFormatReader, 
-	DecodingHintDictionary
 };
+use rxing::MultiFormatWriter; 
+use rxing::Writer;
 use std::path::PathBuf;
 use chrono::Local;
+use image::{
+	DynamicImage, 
+	GrayImage, 
+	Luma
+};
 
 /// Manages the creation and reading of barcodes within the user's download directory.
 pub struct BarcodeHandler {
@@ -80,32 +85,49 @@ impl BarcodeHandler {
         };
 
         // adjust dimensions of the output image
-        let (width, height) = if is_qr { 
-        	(300, 300) 
+        let (width, height) = if is_qr {
+            (300, 300)
         } 
-        else { 
-        	(400, 150) 
+        
+        else {
+            (400, 150)
         };
 
         // generate code
-        let img = helpers::encode_barcode(content, format, width, height)?;
+        let writer = MultiFormatWriter::default();
+        let bit_matrix = writer.encode(content, &format, width, height)?;
+
+        // Convert BitMatrix to image
+        let mut gray_img = GrayImage::new(width as u32, height as u32);
+        for y in 0..height {
+            for x in 0..width {
+                let pixel = if bit_matrix.get(x as u32, y as u32) { 
+                	Luma([0u8]) 
+                } else { 
+                	Luma([255u8]) 
+                };
+                gray_img.put_pixel(x as u32, y as u32, pixel);
+            }
+        }
+        let img = DynamicImage::ImageLuma8(gray_img);
 
         // generate time stamp
         let timestamp = Local::now().format("%Y%m%d_%H%M%S");
-        let prefix = if is_qr { 
-        	"qr" 
+        let prefix = if is_qr {
+            "qr"
         } 
-        else { 
-        	"barcode" 
+        
+        else {
+            "barcode"
         };
-        
+
         let file_name = format!("{}_{}.png", prefix, timestamp);
-        
+
         let mut file_path = self.download_dir.clone();
         file_path.push(&file_name);
-        
+
         img.save(&file_path)?;
-        
+
         Ok(file_name) // return the file name
     }
 
@@ -124,11 +146,9 @@ impl BarcodeHandler {
         let mut file_path = self.download_dir.clone();
         file_path.push(file_name);
 
-        // rxing automatic detect QR, EAN or Code128
-        let result = rxing::helpers::detect_in_file(
-            file_path.to_str().unwrap(), 
-            None
-        )?;
+        // rxing automatic detect QR, EAN or Code128        
+        let path_str = file_path.to_str().ok_or("Ungültiger Dateipfad")?;
+		let result = helpers::detect_in_file(path_str, None)?;
 
         let content = result.getText().to_string();
         let format = format!("{:?}", result.getBarcodeFormat());

@@ -57,7 +57,7 @@ pub enum BarcodeContent {
         pass: String 
     },
     /// A business card in vCard format.
-    VCard,
+    VCard(String),
     /// Unknown or unstructured text format.
     Unknown(String),
 }
@@ -136,8 +136,8 @@ impl Detector {
         }
 
         if self.re_vcard.is_match(input) {
-            return BarcodeContent::VCard;
-        }
+    		return BarcodeContent::VCard(input.to_string());
+		}
 
         // special case for wifi with SSID and password
         if let Some(caps) = self.re_wifi.captures(input) {
