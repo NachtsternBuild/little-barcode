@@ -63,7 +63,12 @@ public class QRCodeandBarcode {
 
         Result result = new MultiFormatReader().decode(bitmap);
 
+        String decodedText = result.getText();
 
-        System.out.println("Gelesener Text: " + result.getText());
+        System.out.println("Gelesener Text: " + decodedText);
+
+        // Regex-Auswertung
+        String detectedType = RegexValidator.identifyContent(decodedText);
+
+        System.out.println("Analyse: " + detectedType);
     }
-}
