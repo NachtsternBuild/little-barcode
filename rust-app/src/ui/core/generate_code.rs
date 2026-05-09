@@ -21,7 +21,18 @@ pub fn execute_generation(
     	let mut downloads: PathBuf = download_dir().expect("Downloads-Verzeichnis nicht gefunden");
     	downloads.push(&file_name);
     	let file_path: &str = downloads.to_str().expect("Pfad enthält ungültige UTF-8-Zeichen");
-     
+     	
+     	let width = if is_qr {
+     		300
+     	} else {
+     		400
+     	};
+     	let heigth = if is_qr {
+     		300
+     	} else {
+     		150
+     	};
+     	
 	    // read the code back
 	    if let Ok((text, format)) = handler.read_any_code(&file_name) {
 	        println!("Content: {}, Format: {}", text, format);
@@ -34,8 +45,8 @@ pub fn execute_generation(
 						&url,
 						"OK",
 						&file_path,
-						600,
-						400
+						width,
+						heigth
 					);
     			}
     			
@@ -46,8 +57,8 @@ pub fn execute_generation(
 						&ean,
 						"OK",
 						&file_path,
-						600,
-						400
+						width,
+						heigth
 					);
         			
     			}
@@ -59,8 +70,8 @@ pub fn execute_generation(
         				&isbn,
         				"OK",
         				&file_path,
-        				600,
-        				400
+        				width,
+        				heigth
         			);
     			}
     			
@@ -71,8 +82,8 @@ pub fn execute_generation(
         				&vcard_data,
         				"OK",
         				&file_path,
-        				600,
-        				400
+        				width,
+        				heigth
         			);
     			}
     			
@@ -83,9 +94,9 @@ pub fn execute_generation(
         				"WLAN",
         				&info,
         				"OK",
-        				&file_name,
-        				600,
-        				400
+        				&file_path,
+        				width,
+        				heigth
         			);
     			}
     			

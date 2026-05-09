@@ -42,7 +42,9 @@ pub fn create_generator_page(stack: &Stack) -> GtkBox {
     container.append(&entry_box);
 
     let generate_btn = Button::with_label("Code Generieren");
+    // two css classes to highlight the button
     generate_btn.add_css_class("suggested-action");
+    generate_btn.add_css_class("destructive-action");
     generate_btn.add_css_class("pill");
     container.append(&generate_btn);
     
@@ -73,7 +75,7 @@ pub fn create_generator_page(stack: &Stack) -> GtkBox {
             
             show_entry_dialog(
                 &stack_ref,
-                "WiFi Passwort",
+                "WiFi",
                 &format!("Bitte Passwort für SSID '{}' eingeben:", ssid),
                 "Generieren",
                 "Abbrechen",
@@ -84,7 +86,9 @@ pub fn create_generator_page(stack: &Stack) -> GtkBox {
                     execute_generation(&container_ref, wifi_string, is_qr);
                 },
             );
-        } else {
+        } 
+        
+        else {
             execute_generation(&container_ref, input_value, is_qr);
         }
     });
@@ -99,6 +103,7 @@ pub fn create_generator_page(stack: &Stack) -> GtkBox {
             switch_to_page(&stack_back_clone, Page::Home);
         }
     );
+
     container.append(&back_button);
 
     container

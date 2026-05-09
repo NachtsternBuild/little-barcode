@@ -25,10 +25,7 @@ fn build_ui(app: &adw::Application) {
 	// init syslog
 	let little_barcode_domain = "little_barcode";
     init_syslog(little_barcode_domain).expect("Unable to initialize Syslog");
-    
-    // init style
-    //use_adw_provider(ADW_CUSTOM_CSS);
-       
+           
     // add a toolbar
     let toolbar_view = ToolbarView::new();
     toolbar_view.set_vexpand(true);
@@ -59,8 +56,8 @@ fn build_ui(app: &adw::Application) {
     let window = ApplicationWindow::builder()
         .application(app)
         .content(&toolbar_view)
-        .default_width(800)
-        .default_height(600)
+        .default_width(500)
+        .default_height(500)
         .build();
 	
 	// present the window
