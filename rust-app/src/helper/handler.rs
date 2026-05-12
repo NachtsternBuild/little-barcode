@@ -97,13 +97,15 @@ impl BarcodeHandler {
         let writer = MultiFormatWriter::default();
         let bit_matrix = writer.encode(content, &format, width, height)?;
 
-        // Convert BitMatrix to image
+        // convert BitMatrix to image
         let mut gray_img = GrayImage::new(width as u32, height as u32);
         for y in 0..height {
             for x in 0..width {
                 let pixel = if bit_matrix.get(x as u32, y as u32) { 
                 	Luma([0u8]) 
-                } else { 
+                } 
+                
+                else { 
                 	Luma([255u8]) 
                 };
                 gray_img.put_pixel(x as u32, y as u32, pixel);

@@ -1,3 +1,16 @@
+//! # Barcode and QR Code Generation Module
+//!
+//! This module orchestrates the process of code generation, validation, and 
+//! graphical display within a Libadwaita application.
+//!
+//! ## Workflow
+//! 1. **Creation**: Generates an image file (QR or barcode) in the user’s download directory.
+//! 2. **Verification**: Immediately re-reads the generated code to check its integrity.
+//! 3. **Recognition**: Analyzes the content (URL, Wi-Fi, vCard, etc.) using a `Detector`.
+//! 4. **Presentation**: Opens a corresponding UI dialog to display the result.
+//!
+//! ## Prerequisites
+//! The module requires write access to the download directory and an active GTK/Libadwaita event loop.
 use gtk4::Widget;
 use adw::prelude::*;
 use atlbase::design::dialogs::*;
@@ -7,6 +20,29 @@ use crate::BarcodeHandler;
 use crate::Detector;
 use crate::BarcodeContent;
 
+/// Handles the entire code generation and display process.
+///
+/// This function is the central entry point when a user wants to
+/// generate a new code. It handles file management, type detection,
+/// and selecting the correct dialog type.
+///
+/// # Arguments
+///
+/// * `parent` - The widget (usually an `adw::ApplicationWindow`) over which the dialogs should appear.
+/// * `content` - The string content to be encoded in the code.
+/// * `is_qr` - `true` for a QR code, `false` for a classic barcode (e.g., EAN13).
+///
+/// # Behavior
+///
+/// * **Storage location**: The file is saved in the system’s default download folder.
+/// * **Dimensions**: QR codes are displayed at 300x300px by default, barcodes at 100x300px.
+/// * **Type detection**: Based on the content (`BarcodeContent`), a specific dialog 
+///   with corresponding metadata (e.g., SSID for Wi-Fi) is displayed.
+///
+/// # Panics
+///
+/// The function expects a download directory to be defined in the system. 
+/// If this is not the case, execution aborts with an error message.
 pub fn execute_generation(
 	parent: &impl IsA<Widget>, 
 	content: String, 
@@ -25,14 +61,11 @@ pub fn execute_generation(
      	let width = if is_qr {
      		300
      	} else {
-     		400
-     	};
-     	let heigth = if is_qr {
-     		300
-     	} else {
-     		150
+     		100
      	};
      	
+     	let heigth = 300;
+     	     	
 	    // read the code back
 	    if let Ok((text, format)) = handler.read_any_code(&file_name) {
 	        println!("Content: {}, Format: {}", text, format);

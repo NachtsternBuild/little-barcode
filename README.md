@@ -17,3 +17,6 @@ Please see the respective subdirectories for the full license texts.
 
 ## Meilensteine
 - In den [Meilensteinen](https://github.com/NachtsternBuild/little-barcode/milestones) finden sich die Projekt Daten und bis wann die Sachen erledigt sein müssen.
+
+## Dokuemtation
+- Die vollständige Dokumentation der Rust Portierung finden Sie in der [README](https://github.com/NachtsternBuild/little-barcode/blob/main/rust-app/README.md)
