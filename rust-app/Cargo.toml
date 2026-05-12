@@ -4,3 +4,12 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
+regex = "1.12"
+rxing = { version = "0.6", features = ["image_formats"]}
+image = "0.24" 
+home = "0.5"
+chrono = "0.4"
+adw = { version = "0.9.1", package = "libadwaita", features = ["v1_8"] }
+gtk4 = { version = "0.11", features = ["v4_20"]}
+atlbase = "0.1"
+dirs-next = "2"
